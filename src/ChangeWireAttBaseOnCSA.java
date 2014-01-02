@@ -33,17 +33,7 @@
  * @author Mike Stamper
  * @date August 28, 2009
  */
-import GUI.PopMe;
 import GUI.WireAttributes;
-import com.mentor.chs.api.IXAbstractPin;
-import com.mentor.chs.api.IXCavity;
-import com.mentor.chs.api.IXConnector;
-
-import com.mentor.chs.api.IXDesign;
-import com.mentor.chs.api.IXDevice;
-import com.mentor.chs.api.IXNet;
-import com.mentor.chs.api.IXObject;
-import com.mentor.chs.api.IXValue;
 import com.mentor.chs.api.IXWire;
 import com.mentor.chs.plugin.IXApplicationContext;
 import com.mentor.chs.plugin.IXAttributeSetter;
@@ -56,10 +46,6 @@ import com.mentor.chs.plugin.action.IXLogicAction;
 
 import java.awt.Desktop;
 
-import java.io.File;
-
-import java.net.URI;
-import java.util.Iterator;
 
 import java.util.Set;
 
@@ -69,6 +55,7 @@ public class ChangeWireAttBaseOnCSA implements IXLogicAction, IXIntegratorAction
     {
     IXApplicationContext cntx;
     public double CSARange = 0;
+    public String spec ="";
     public String   MatValue = "";
     public double   CSAValue = 0;
     public Desktop  desktop;
@@ -94,6 +81,7 @@ public class ChangeWireAttBaseOnCSA implements IXLogicAction, IXIntegratorAction
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
         CSARange= dialog.CSARange;
+        spec= dialog.spec;
         MatValue= dialog.MatValue.toString();
         Object = dialog.Object;
         IXOutputWindow outputWindow = cntx.getOutputWindow();
@@ -117,7 +105,10 @@ public class ChangeWireAttBaseOnCSA implements IXLogicAction, IXIntegratorAction
                      CSAValue =Double.parseDouble(wire.getAttribute("WireCSA"));
                      if(CSAValue == CSARange)
                         {
+                            if(MatValue!=""||spec!=null)
                         attributeSetter.addAttribute("WireMaterial", MatValue);
+                            if(spec!=""||spec!=null)
+                        attributeSetter.addAttribute("WireSpec", spec);
                         outputWindow.println(wire.getAttribute("Name")+":_"+"Material: has been change to"+ MatValue);
                         state =true;
                         }

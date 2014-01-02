@@ -355,7 +355,8 @@ public class GoToFile implements IXLogicAction, IXIntegratorAction, IXHarnessAct
     /**
      * @return The version string
      */
-    public String getVersion() {
+    public String getVersion() 
+    {
         return "1.0";
     }
 
